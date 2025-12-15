@@ -15,9 +15,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.final_project.data.local.TaskWithCategory
+import com.example.final_project.ui.components.CategoryFilterDialog
+import com.example.final_project.ui.components.CategoryFilterDropdownMenu
 import com.example.final_project.ui.navigation.Screen
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -41,41 +48,92 @@ import java.util.Locale
 @Composable
 fun TaskListScreen(navController: NavController, viewModel: TaskListViewModel = hiltViewModel()) {
     val tasks by viewModel.tasks.collectAsState()
+    val filteredTasks by viewModel.filteredTasks.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    val showFilterDialog by viewModel.showFilterDialog.collectAsState()
+    val selectedCategoryIds by viewModel.selectedCategoryIds.collectAsState()
+    val categories by viewModel.categories.collectAsState()
 
-    if (isLoading) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
-        }
-    } else if (tasks.isEmpty()) {
-        Box(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "You have no tasks.\nTap the '+' button to add one!",
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center
-            )
-        }
-    } else {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(items = tasks, key = { it.task.id }) { taskWithCategory ->
-                TaskItem(
-                    modifier = Modifier.animateItem(),
-                    navController = navController,
-                    taskWithCategory = taskWithCategory,
-                    onTaskCheckedChange = { isChecked ->
-                        viewModel.updateTaskCompletion(taskWithCategory.task, isChecked)
-                    }
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (isLoading) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        } else if (tasks.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "You have no tasks.\nTap the '+' button to add one!",
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center
                 )
             }
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(items = filteredTasks, key = { it.task.id }) { taskWithCategory ->
+                    TaskItem(
+                        modifier = Modifier.animateItem(),
+                        navController = navController,
+                        taskWithCategory = taskWithCategory,
+                        onTaskCheckedChange = { isChecked ->
+                            viewModel.updateTaskCompletion(taskWithCategory.task, isChecked)
+                        }
+                    )
+                }
+            }
         }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomEnd)
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Box {
+                FloatingActionButton(
+                    onClick = { viewModel.onFilterClicked() },
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                ) {
+                    Icon(Icons.Default.FilterList, contentDescription = "Filter Tasks")
+                }
+
+                CategoryFilterDropdownMenu(
+                    expanded = showFilterDialog,
+                    categories = categories,
+                    selectedCategoryIds = selectedCategoryIds,
+                    onCategorySelected = viewModel::onFilterCategorySelected,
+                    onDismissRequest = viewModel::onFilterDialogDismiss,
+                )
+            }
+
+            FloatingActionButton(
+                onClick = { navController.navigate(Screen.NewTask.route) }
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "New Task")
+            }
+        }
+
+//        if (showFilterDialog) {
+//            CategoryFilterDialog(
+//                categories = categories,
+//                selectedCategoryIds = selectedCategoryIds,
+//                onCategorySelected = viewModel::onFilterCategorySelected,
+//                onDismissRequest = viewModel::onFilterDialogDismiss,
+//                onConfirm = viewModel::onFilterDialogConfirm
+//            )
+//        }
     }
+
 }
 
 @Composable
@@ -115,7 +173,6 @@ fun TaskItem(
                     color = if (task.isCompleted) Color.Gray else MaterialTheme.colorScheme.onSurface
                 )
 
-                // Show the due date only if it exists
                 task.dueDate?.let {
                     val formattedDate = SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).format(Date(it))
                     Text(

@@ -23,15 +23,13 @@ class EditTaskViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    // --- State for UI form fields ---
     var taskTitle by mutableStateOf("")
     var taskDueDate by mutableStateOf<Long?>(null)
     var taskNotes by mutableStateOf("")
     var selectedCategoryId by mutableStateOf<Int?>(null)
 
-    // --- State for Categories and Dialogs ---
     var showNewCategoryDialog by mutableStateOf(false)
-        private set // Keep setter private to control visibility from the ViewModel
+        private set
 
     val categories: StateFlow<List<CategoryEntity>> =
         todoRepository.getCategories(authRepository.getCurrentUserId() ?: "")
@@ -59,7 +57,6 @@ class EditTaskViewModel @Inject constructor(
         }
     }
 
-    // --- Public functions for the UI to call ---
 
     fun onTitleChange(newTitle: String) {
         taskTitle = newTitle
@@ -108,19 +105,17 @@ class EditTaskViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            // Fetch the original task once to preserve unchanged properties
             val originalTaskWithCategory = todoRepository.getTaskById(taskId) ?: return@launch
             val originalTaskEntity = originalTaskWithCategory.task
 
             val updatedTask = originalTaskEntity.copy(
-//                id = taskId, // Ensure ID is preserved
                 title = taskTitle,
                 notes = taskNotes,
                 dueDate = taskDueDate,
                 categoryId = selectedCategoryId
             )
             todoRepository.updateTask(updatedTask)
-            onTaskUpdated() // Navigate back
+            onTaskUpdated()
         }
     }
 }

@@ -9,8 +9,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -51,16 +52,6 @@ fun HomeScreen(
                 }
             )
         },
-        floatingActionButton = {
-            // Only show the FAB on the Tasks tab
-            if (selectedTab == HomeTab.Tasks) {
-                FloatingActionButton(onClick = {
-                    navController.navigate(Screen.NewTask.route)
-                }) {
-                    Icon(Icons.Default.Add, contentDescription = "New Task")
-                }
-            }
-        },
         bottomBar = {
             NavigationBar {
                 NavigationBarItem(
@@ -72,13 +63,13 @@ fun HomeScreen(
                 NavigationBarItem(
                     selected = selectedTab == HomeTab.Calendar,
                     onClick = { viewModel.onTabSelected(HomeTab.Calendar) },
-                    icon = { Icon(Icons.Default.CalendarToday, contentDescription = "Calendar") },
+                    icon = { Icon(Icons.Default.CalendarMonth, contentDescription = "Calendar") },
                     label = { Text("Calendar") }
                 )
                 NavigationBarItem(
                     selected = selectedTab == HomeTab.Chat,
                     onClick = { viewModel.onTabSelected(HomeTab.Chat) },
-                    icon = { Icon(Icons.Default.Chat, contentDescription = "Chat") },
+                    icon = { Icon(Icons.Default.SmartToy, contentDescription = "Chat") },
                     label = { Text("Chat") }
                 )
             }

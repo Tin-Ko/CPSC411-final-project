@@ -69,7 +69,8 @@ class ChatViewModel @Inject constructor(
                     val task = taskWithCategory.task
                     val cat = taskWithCategory.category?.name ?: "No Category"
                     val due = task.dueDate?.let { "Due: ${formatDate(it)}" } ?: ""
-                    "- Title: ${task.title}, Completed: ${task.isCompleted}, Category: $cat, $due"
+                    val notes = task.notes
+                    "- Title: ${task.title}, Completed: ${task.isCompleted}, Category: $cat, $due ${if (notes.isNotBlank()) ", Notes: $notes" else ""}"
                 }
             }
 

@@ -132,7 +132,6 @@ fun EditTaskScreen(
                 }
             )
 
-            // Category Dropdown
             ExposedDropdownMenuBox(
                 expanded = isCategoryDropdownExpanded,
                 onExpandedChange = { isCategoryDropdownExpanded = !isCategoryDropdownExpanded }
@@ -144,7 +143,7 @@ fun EditTaskScreen(
                     label = { Text("Category (Optional)") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .menuAnchor(), // This connects the text field to the dropdown
+                        .menuAnchor(),
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = isCategoryDropdownExpanded)
                     }

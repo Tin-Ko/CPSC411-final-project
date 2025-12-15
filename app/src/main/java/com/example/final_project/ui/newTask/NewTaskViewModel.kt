@@ -32,7 +32,6 @@ class NewTaskViewModel @Inject constructor(
     var showNewCategoryDialog by mutableStateOf(false)
         private set
 
-    // Live list of categories for the dropdown
     val categories: StateFlow<List<CategoryEntity>> =
         todoRepository.getCategories(authRepository.getCurrentUserId() ?: "")
             .stateIn(
