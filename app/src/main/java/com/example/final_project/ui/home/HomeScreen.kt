@@ -40,11 +40,12 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val selectedTab by viewModel.selectedTab.collectAsState()
+    val topBarTitle by viewModel.topBarTitle.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (selectedTab == HomeTab.Tasks) "My Tasks" else "Calendar") },
+                title = { Text(topBarTitle) },
                 actions = {
                     IconButton(onClick = { navController.navigate(Screen.Profile.route) }) {
                         Icon(Icons.Default.AccountCircle, contentDescription = "Profile", modifier = Modifier.size(48.dp))
