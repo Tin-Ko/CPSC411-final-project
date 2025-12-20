@@ -101,13 +101,7 @@ To run this project locally, follow these steps:
     git clone <repository-url>
     ```
 
-2.  **Firebase Setup**
-
-    -   Create a project in the Firebase Console.
-    -   Enable **Authentication** (Email/Password provider).
-    -   Download `google-services.json` and place it in the `app/` directory.
-
-3.  **API Keys (DeepSeek/OpenAI)**
+2.  **API Keys (DeepSeek/OpenAI)**
 
     -   Obtain an API Key from DeepSeek (or OpenAI).
     -   Open `local.properties` in the root directory.
@@ -116,7 +110,7 @@ To run this project locally, follow these steps:
         DEEPSEEK_API_KEY=your_api_key_here
         ```
 
-4.  **Build and Run**
+3.  **Build and Run**
     -   Open the project in Android Studio (Ladybug or newer recommended).
     -   Sync Gradle.
     -   Run on an Emulator or Physical Device.
