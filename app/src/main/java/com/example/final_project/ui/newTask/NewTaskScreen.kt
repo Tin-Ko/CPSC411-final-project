@@ -20,7 +20,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.final_project.ui.components.NewCategoryDialog
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
 import java.util.Calendar
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,10 +84,15 @@ fun NewTaskScreen(
 
             // Due Date Picker
             OutlinedTextField(
-                value = viewModel.taskDueDate?.let { SimpleDateFormat("MMM d, yyyy").format(it) } ?: "No due date",
+                value = viewModel.taskDueDate?.let { localMillis ->
+                    val formatter = SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).apply {
+                        timeZone = TimeZone.getDefault()
+                    }
+                    formatter.format(Date(localMillis))
+                } ?: "No Due Date",
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Due Date") },
+                label = { Text("Due Date (Optional)") },
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker = true }) {
                         Icon(Icons.Default.DateRange, contentDescription = "Select Date")
@@ -173,13 +181,12 @@ fun NewTaskScreen(
                 confirmButton = {
                     TextButton(onClick = {
                         showDatePicker = false
-                        // Set time to end of day for consistency
-                        val calendar = Calendar.getInstance()
-                        calendar.timeInMillis = datePickerState.selectedDateMillis ?: System.currentTimeMillis()
-                        calendar.set(Calendar.HOUR_OF_DAY, 23)
-                        calendar.set(Calendar.MINUTE, 59)
-                        calendar.set(Calendar.SECOND, 59)
-                        viewModel.onDueDateChange(calendar.timeInMillis)
+                        datePickerState.selectedDateMillis?.let { utcMillis ->
+                            val instant = Instant.ofEpochMilli(utcMillis)
+                            val localDate = instant.atZone(ZoneId.of("UTC")).toLocalDate()
+                            val localMillis = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                            viewModel.onDueDateChange(localMillis)
+                        }
                     }) {
                         Text("OK")
                     }

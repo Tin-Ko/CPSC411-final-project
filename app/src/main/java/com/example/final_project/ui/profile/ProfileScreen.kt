@@ -88,7 +88,7 @@ fun ProfileScreen(
                         placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
                         error = painterResource(id = R.drawable.ic_launcher_foreground),
                         contentDescription = "Profile Picture",
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.Fit,
                         modifier = Modifier.fillMaxSize()
                     )
                 }

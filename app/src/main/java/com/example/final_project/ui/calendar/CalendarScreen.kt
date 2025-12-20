@@ -107,7 +107,8 @@ fun CalendarScreen(
                         navController = navController,
                         onTaskCheckedChange = { isChecked ->
                             viewModel.updateTaskCompletion(taskWithCategory.task, isChecked)
-                        }
+                        },
+                        onDeleteClick = { viewModel.deleteTask(taskWithCategory.task) }
                     )
                 }
             }

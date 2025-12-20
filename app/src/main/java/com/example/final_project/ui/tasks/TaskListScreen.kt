@@ -5,11 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -18,11 +21,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,7 +68,7 @@ fun TaskListScreen(navController: NavController, viewModel: TaskListViewModel = 
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(12.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -75,7 +80,7 @@ fun TaskListScreen(navController: NavController, viewModel: TaskListViewModel = 
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(items = filteredTasks, key = { it.task.id }) { taskWithCategory ->
@@ -85,7 +90,8 @@ fun TaskListScreen(navController: NavController, viewModel: TaskListViewModel = 
                         taskWithCategory = taskWithCategory,
                         onTaskCheckedChange = { isChecked ->
                             viewModel.updateTaskCompletion(taskWithCategory.task, isChecked)
-                        }
+                        },
+                        onDeleteClick = { viewModel.deleteTask(taskWithCategory.task)}
                     )
                 }
             }
@@ -141,6 +147,7 @@ fun TaskItem(
     taskWithCategory: TaskWithCategory,
     navController: NavController,
     onTaskCheckedChange: (Boolean) -> Unit,
+    onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val task = taskWithCategory.task
@@ -155,16 +162,24 @@ fun TaskItem(
 
     Card(modifier = modifier.fillMaxWidth(), onClick = { navController.navigate(Screen.EditTask.createRoute(task.id)) }) {
         Row(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier.height(IntrinsicSize.Min).fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            category?.let {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(6.dp)
+                        .background(color = Color(category.colorHex.toULong()))
+                )
+            }
             Checkbox(
                 checked = task.isCompleted,
                 onCheckedChange = onTaskCheckedChange
             )
 
             Column(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).padding(top = 16.dp, bottom = 16.dp),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -183,15 +198,11 @@ fun TaskItem(
                 }
             }
 
-            category?.let {
-                Spacer(modifier = Modifier.width(12.dp))
-                Box(
-                    modifier = Modifier
-                        .size(14.dp)
-                        .background(
-                            color = Color(it.colorHex.toULong()),
-                            shape = MaterialTheme.shapes.small
-                        )
+            IconButton(onClick = onDeleteClick) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Delete Task",
+                    tint = Color.DarkGray // Optional: Make it red to indicate danger
                 )
             }
         }

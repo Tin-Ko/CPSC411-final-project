@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import android.net.Uri
 
 enum class HomeTab {
     Tasks, Calendar, Chat
@@ -25,8 +26,6 @@ class HomeViewModel @Inject constructor(
     private val _topBarTitle = MutableStateFlow("My Tasks")
     val selectedTab: StateFlow<HomeTab> = _selectedTab.asStateFlow()
     val topBarTitle: StateFlow<String> = _topBarTitle.asStateFlow()
-
-
 
     fun onTabSelected(tab: HomeTab) {
         _selectedTab.value = tab

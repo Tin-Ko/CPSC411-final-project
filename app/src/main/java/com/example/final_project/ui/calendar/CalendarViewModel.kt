@@ -40,6 +40,12 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
+    fun deleteTask(task: TaskEntity) {
+        viewModelScope.launch {
+            todoRepository.deleteTask(task)
+        }
+    }
+
     private fun normalizeDate(dateMillis: Long): Long {
         val calendar = Calendar.getInstance().apply {
             timeInMillis = dateMillis

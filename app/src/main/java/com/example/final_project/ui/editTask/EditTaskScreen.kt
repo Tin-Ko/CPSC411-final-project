@@ -120,7 +120,7 @@ fun EditTaskScreen(
                         timeZone = TimeZone.getDefault()
                     }
                     formatter.format(Date(localMillis))
-                } ?: "",
+                } ?: "No Due Date",
                 onValueChange = {},
                 readOnly = true,
                 label = { Text("Due Date (Optional)") },
