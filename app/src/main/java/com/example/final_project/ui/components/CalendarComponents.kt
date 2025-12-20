@@ -161,7 +161,6 @@ fun MonthCalendar(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Calendar days
         for (week in 0..5) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 for (day in 0..6) {

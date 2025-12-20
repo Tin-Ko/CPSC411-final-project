@@ -23,7 +23,6 @@ class NewTaskViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    // UI state for the form fields
     var taskTitle by mutableStateOf("")
     var taskDueDate by mutableStateOf<Long?>(null)
     var taskNotes by mutableStateOf("")
@@ -83,7 +82,6 @@ class NewTaskViewModel @Inject constructor(
     fun saveTask(onTaskSaved: () -> Unit) {
         val userId = authRepository.getCurrentUserId()
         if (taskTitle.isBlank() || userId == null) {
-            // Optionally, handle error state (e.g., show a toast)
             return
         }
 
@@ -96,10 +94,10 @@ class NewTaskViewModel @Inject constructor(
                 isCompleted = false,
                 categoryId = selectedCategoryId,
                 ownerId = userId,
-                priority = 1 // Default priority
+                priority = 1
             )
             todoRepository.insertTask(newTask)
-            onTaskSaved() // Use callback to navigate back
+            onTaskSaved()
         }
     }
 }

@@ -37,7 +37,6 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Name Field
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
@@ -47,7 +46,6 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Email Field
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -58,7 +56,6 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Password Field
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -69,7 +66,6 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Confirm Password Field
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },

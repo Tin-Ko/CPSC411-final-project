@@ -32,7 +32,6 @@ fun ChatScreen(
     val isLoading by viewModel.isLoading.collectAsState()
 
 
-    // Automatically scroll to the bottom when a new message arrives
     LaunchedEffect(messages.size) {
         listState.animateScrollToItem(index = if (messages.isNotEmpty()) messages.size - 1 else 0)
     }

@@ -32,7 +32,6 @@ fun ColorPickerDialog(
                 Text("Select a Color", style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Creates a 4x4 grid of colors
                 for (i in colors.indices step 4) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),

@@ -153,7 +153,6 @@ fun TaskItem(
     val task = taskWithCategory.task
     val category = taskWithCategory.category
 
-    // Apply a line-through style if the task is completed
     val textStyle = if (task.isCompleted) {
         MaterialTheme.typography.bodyLarge.copy(textDecoration = TextDecoration.LineThrough)
     } else {
@@ -202,7 +201,7 @@ fun TaskItem(
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete Task",
-                    tint = Color.DarkGray // Optional: Make it red to indicate danger
+                    tint = Color.DarkGray
                 )
             }
         }

@@ -40,7 +40,6 @@ fun ProfileScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    // The contract for the modern photo picker
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
@@ -65,7 +64,6 @@ fun ProfileScreen(
             } else {
                 Spacer(modifier = Modifier.height(40.dp))
 
-                // Profile Picture
                 Box(
                     modifier = Modifier
                         .size(150.dp)
@@ -73,7 +71,6 @@ fun ProfileScreen(
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .border(3.dp, MaterialTheme.colorScheme.primary, CircleShape)
                         .clickable {
-                            // Launch the photo picker using the CORRECT request class
                             photoPickerLauncher.launch(
                                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                             )
@@ -93,24 +90,22 @@ fun ProfileScreen(
                     )
                 }
 
-                // User Info
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = uiState.displayName, style = MaterialTheme.typography.headlineMedium)
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(text = uiState.email, style = MaterialTheme.typography.bodyLarge)
                 }
 
-                Spacer(modifier = Modifier.weight(1f)) // This pushes the button to the bottom
+                Spacer(modifier = Modifier.weight(1f))
 
                 Button(
                     onClick = {
                         viewModel.signOut()
-                        // Navigate to the Login screen and clear the back stack
                         navController.navigate(Screen.Login.route) {
                             popUpTo(navController.graph.startDestinationId) {
                                 inclusive = true
                             }
-                            launchSingleTop = true // Avoid multiple copies of the login screen
+                            launchSingleTop = true
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
