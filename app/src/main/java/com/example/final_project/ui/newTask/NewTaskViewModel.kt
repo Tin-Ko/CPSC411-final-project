@@ -23,7 +23,6 @@ class NewTaskViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    // UI state for the form fields
     var taskTitle by mutableStateOf("")
     var taskDueDate by mutableStateOf<Long?>(null)
     var taskNotes by mutableStateOf("")
