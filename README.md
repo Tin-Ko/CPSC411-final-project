@@ -7,7 +7,6 @@ A comprehensive productivity application built with Modern Android Development t
 -   **Timothy Ko** - 875036808
 -   **Yu-Wen Chang** - 837917566
 
----
 
 ## Project Overview
 
@@ -64,7 +63,6 @@ It allows users to:
 -   **AI Chat Assistant:** Integrated using the OpenAI Client (configured for DeepSeek API). The AI receives the user's current task list as context to answer questions like "What do I need to do today?".
 -   **Category Management:** Users can create custom color-coded categories.
 
----
 
 ## Architecture
 
@@ -75,7 +73,6 @@ The app follows the recommended **MVVM (Model-View-ViewModel)** architecture:
 -   **Data Layer (Repository):** Repositories (`TodoRepository`, `AuthRepository`) that abstract data sources.
 -   **Dependency Injection:** **Dagger Hilt** is used for dependency injection throughout the app.
 
----
 
 ## Screenshots
 
@@ -91,7 +88,6 @@ The app follows the recommended **MVVM (Model-View-ViewModel)** architecture:
 | :------------------------------------------------------: | :-----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="Screenshots/Edit_Task.png" style="Width:94%;"> | <img src="Screenshots/Profile_Screen.png" style="Width:90%;"> | <img src="Screenshots/Filter_Screen.png" style="Width:90%;"> |
 
----
 
 ## Project Setup Guide
 
