@@ -2,6 +2,8 @@
 
 A comprehensive productivity application built with Modern Android Development technologies. This app features offline-first data persistence using Room, secure authentication via Firebase, and an AI-powered chat assistant to help manage tasks.
 
+[YouTube Demo Link](https://youtu.be/PtKsO51QNr4)
+
 ## Team Members
 
 -   **Timothy Ko** - 875036808
