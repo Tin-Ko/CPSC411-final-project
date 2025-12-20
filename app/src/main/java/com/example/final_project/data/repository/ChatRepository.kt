@@ -15,7 +15,6 @@ import javax.inject.Singleton
 @Singleton
 class ChatRepository @Inject constructor() {
 
-    // Initialize the OpenAI client with your secret API key
     private val openAI = OpenAI(
         OpenAIConfig(
             token = BuildConfig.DEEPSEEK_API_KEY,
@@ -26,10 +25,9 @@ class ChatRepository @Inject constructor() {
 
     suspend fun getChatCompletion(
         userMessage: String,
-        taskContext: String // We'll pass the user's tasks here
+        taskContext: String
     ): Result<String> {
         return try {
-            // This is the system prompt. It tells the AI how to behave.
             val systemPrompt = """
                 You are a helpful to-do list assistant.
                 The user's current tasks are provided below in a simplified format.
@@ -54,7 +52,6 @@ class ChatRepository @Inject constructor() {
 
             Result.success(response)
         } catch (e: Exception) {
-            // Handle exceptions (e.g., network errors, API errors)
             e.printStackTrace()
             Result.failure(e)
         }

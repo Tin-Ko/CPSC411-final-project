@@ -21,7 +21,6 @@ class CalendarViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    // A map of due dates to the list of tasks for that day
     val tasksByDate: StateFlow<Map<Long, List<TaskWithCategory>>> =
         todoRepository.getTasksWithDueDate(authRepository.getCurrentUserId() ?: "")
             .map { tasks ->

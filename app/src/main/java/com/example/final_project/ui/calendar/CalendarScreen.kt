@@ -34,7 +34,6 @@ fun CalendarScreen(
     val calendarState = rememberCalendarState()
     val selectedDate by remember {
         derivedStateOf {
-            // Normalize the selected date to the start of the day
             val cal = Calendar.getInstance().apply {
                 timeInMillis = calendarState.selectedDateMillis
                 set(Calendar.HOUR_OF_DAY, 0)
@@ -59,7 +58,6 @@ fun CalendarScreen(
                 val dateMillis = dayCalendar.timeInMillis
                 val hasTasks = tasksByDate.containsKey(dateMillis)
 
-                // Re-creating the CalendarDay content here
                 val backgroundColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent
                 val contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
 

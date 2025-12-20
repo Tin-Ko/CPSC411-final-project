@@ -41,7 +41,6 @@ class ChatViewModel @Inject constructor(
     var isLoading = _isLoading.asStateFlow()
 
     init {
-        // Add a welcome message from the bot
         messages = listOf(ChatMessage("Hello! How can I help you with your tasks today?", isFromUser = false))
         _isLoading.value = false
     }

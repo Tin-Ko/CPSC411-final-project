@@ -74,7 +74,6 @@ fun NewTaskScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Task Title
             OutlinedTextField(
                 value = viewModel.taskTitle,
                 onValueChange = viewModel::onTitleChange,
@@ -82,7 +81,6 @@ fun NewTaskScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Due Date Picker
             OutlinedTextField(
                 value = viewModel.taskDueDate?.let { localMillis ->
                     val formatter = SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).apply {
@@ -101,7 +99,6 @@ fun NewTaskScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Category Picker
             ExposedDropdownMenuBox(
                 expanded = isCategoryDropdownExpanded,
                 onExpandedChange = { isCategoryDropdownExpanded = !isCategoryDropdownExpanded },
@@ -125,7 +122,6 @@ fun NewTaskScreen(
                     expanded = isCategoryDropdownExpanded,
                     onDismissRequest = { isCategoryDropdownExpanded = false }
                 ) {
-                    // "Add New" option
                     DropdownMenuItem(
                         text = { Text("+ Add New Category") },
                         onClick = {
@@ -134,7 +130,6 @@ fun NewTaskScreen(
                         }
                     )
 
-                    // "No Category" option
                     DropdownMenuItem(
                         text = { Text("No Category") },
                         onClick = {
@@ -143,7 +138,6 @@ fun NewTaskScreen(
                         }
                     )
 
-                    // List of existing categories
                     categories.forEach { category ->
                         DropdownMenuItem(
                             text = { Text(category.name) },
@@ -163,7 +157,6 @@ fun NewTaskScreen(
                 }
             }
 
-            // Notes
             OutlinedTextField(
                 value = viewModel.taskNotes,
                 onValueChange = viewModel::onNotesChange,
@@ -172,7 +165,6 @@ fun NewTaskScreen(
                 minLines = 3
             )
 
-            // Add more fields here (Category, Priority, etc.) as needed
         }
 
         if (showDatePicker) {

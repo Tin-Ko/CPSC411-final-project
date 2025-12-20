@@ -11,7 +11,6 @@ class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
     fun signUpUser(name: String, email: String, password: String, confirmPassword: String, onResult: (Boolean, String?) -> Unit) {
-        // Validation
         if (name.isBlank() || email.isBlank() || password.isBlank()) {
             onResult(false, "Please fill in all fields")
             return

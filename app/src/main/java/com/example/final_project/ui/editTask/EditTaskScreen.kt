@@ -33,11 +33,9 @@ fun EditTaskScreen(
     val categories by viewModel.categories.collectAsState()
     var isCategoryDropdownExpanded by remember { mutableStateOf(false) }
 
-    // State for the DatePickerDialog
     val datePickerState = rememberDatePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
 
-    // Show the New Category Dialog when the ViewModel state is true
     if (viewModel.showNewCategoryDialog) {
         NewCategoryDialog(
             onDismissRequest = { viewModel.onNewCategoryDialogDismiss() },
@@ -47,7 +45,6 @@ fun EditTaskScreen(
         )
     }
 
-    // Show the Date Picker Dialog when the state is true
     if (showDatePicker) {
         DatePickerDialog(
             onDismissRequest = { showDatePicker = false },
@@ -88,7 +85,6 @@ fun EditTaskScreen(
                                 navController.popBackStack()
                             }
                         },
-                        // Enable button only if the title is not blank
                         enabled = viewModel.taskTitle.isNotBlank()
                     ) {
                         Text("Save")
@@ -104,7 +100,6 @@ fun EditTaskScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Task Title
             OutlinedTextField(
                 value = viewModel.taskTitle,
                 onValueChange = { viewModel.onTitleChange(it) },
@@ -113,7 +108,6 @@ fun EditTaskScreen(
                 singleLine = true
             )
 
-            // Due Date
             OutlinedTextField(
                 value = viewModel.taskDueDate?.let { localMillis ->
                     val formatter = SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).apply {
@@ -153,7 +147,6 @@ fun EditTaskScreen(
                     expanded = isCategoryDropdownExpanded,
                     onDismissRequest = { isCategoryDropdownExpanded = false }
                 ) {
-                    // "Add New..." item
                     DropdownMenuItem(
                         text = { Text("+ Add New Category", color = MaterialTheme.colorScheme.primary) },
                         onClick = {
@@ -169,7 +162,6 @@ fun EditTaskScreen(
                             isCategoryDropdownExpanded = false
                         }
                     )
-                    // Category list
                     categories.forEach { category ->
                         Log.d("ColorDebug", "Category: '${category.name}' with color: '${category.colorHex}'")
                         DropdownMenuItem(
@@ -190,14 +182,13 @@ fun EditTaskScreen(
                 }
             }
 
-            // Task Notes
             OutlinedTextField(
                 value = viewModel.taskNotes,
                 onValueChange = { viewModel.onNotesChange(it) },
                 label = { Text("Notes (Optional)") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f), // Takes up remaining space
+                    .weight(1f),
                 maxLines = 10
             )
         }
